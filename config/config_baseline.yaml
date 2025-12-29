@@ -1,5 +1,5 @@
 environment: "Pendulum-v1"
 algorithm: "SAC"
-timesteps: 50000
-checkpoint_freq: 5000
+timesteps: 100000
+checkpoint_freq: 10000
 num_trials: 3

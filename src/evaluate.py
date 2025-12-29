@@ -66,4 +66,4 @@ def evaluate(model_path, env_id, episodes=10, render=False):
 
 if __name__ == '__main__':
     # Example usage for Pendulum-v1
-    evaluate("results/baseline/SAC_trial1.zip", "Pendulum-v1", episodes=10, render=True)
+    evaluate("results/custom/SAC_trial3.zip", "Pendulum-v1", episodes=10, render=True)
