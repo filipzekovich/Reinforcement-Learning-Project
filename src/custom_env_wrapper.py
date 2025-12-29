@@ -4,6 +4,18 @@ import numpy as np
 
 
 class CustomRewardWrapper(RewardWrapper):
+    """
+    Custom reward wrapper for Pendulum-v1 environment.
+
+    Original Reward: -(theta^2 + 0.1*theta_dt^2 + 0.001*action^2)
+    Range: approximately -16.0 to 0.0
+
+    Custom Reward Design:
+    - Emphasizes staying upright (theta close to 0)
+    - Penalizes excessive angular velocity
+    - Rewards smooth control (low action magnitude)
+    - Provides bonus for maintaining stable upright position
+    """
 
     def __init__(self, env: gym.Env, cfg: dict):
         super().__init__(env)
@@ -17,11 +29,20 @@ class CustomRewardWrapper(RewardWrapper):
         self.stability_threshold = cfg.get('stability_threshold', 0.1)
 
     def reward(self, reward: float) -> float:
-        # Get current state from environment
-        # Pendulum-v1 observation: [cos(theta), sin(theta), theta_dot]
-        obs = self.env.unwrapped.state
-        theta = np.arctan2(obs[1], obs[0])  # Reconstruct angle from sin/cos
-        theta_dot = obs[2]  # Angular velocity
+        """
+        Custom reward function for Pendulum-v1.
+
+        Args:
+            reward: Original environment reward
+
+        Returns:
+            Custom modified reward
+        """
+        # Get current state from environment's internal state
+        # Pendulum's internal state: [theta, theta_dot]
+        state = self.env.unwrapped.state
+        theta = state[0]  # Angle (in radians, -pi to pi)
+        theta_dot = state[1]  # Angular velocity
 
         # Get last action (torque applied)
         # Note: In Pendulum, action is in range [-2, 2]
