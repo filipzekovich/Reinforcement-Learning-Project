@@ -1,0 +1,12 @@
+environment: "Pendulum-v1"
+algorithm: "SAC"
+timesteps: 100000
+checkpoint_freq: 10000
+num_trials: 3
+
+# Custom reward hyperparameters
+angle_weight: 1.5
+velocity_weight: 0.05
+action_weight: 0.001
+stability_bonus: 1.0
+stability_threshold: 0.1
